@@ -1,0 +1,157 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  phone         String?
+  password      String
+  firstName     String
+  lastName      String
+  dateOfBirth   DateTime
+  gender        Gender
+  location      String
+  job           String?
+  education     String?
+  bio           String?
+  interests     String[] // Array of interests
+  photos        Photo[]
+  isVerified    Boolean  @default(false)
+  isActive      Boolean  @default(true)
+  lastSeen      DateTime @default(now())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  sentLikes     Like[]   @relation("LikeSender")
+  receivedLikes Like[]   @relation("LikeReceiver")
+  sentMatches   Match[]  @relation("MatchSender")
+  receivedMatches Match[] @relation("MatchReceiver")
+  sentMessages  Message[] @relation("MessageSender")
+  receivedMessages Message[] @relation("MessageReceiver")
+  reports       Report[]
+  blockedUsers  Block[]  @relation("BlockSender")
+  blockedByUsers Block[] @relation("BlockReceiver")
+
+  @@map("users")
+}
+
+model Photo {
+  id        String   @id @default(uuid())
+  url       String
+  isPrimary Boolean  @default(false)
+  order     Int      @default(0)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@map("photos")
+}
+
+model Like {
+  id         String    @id @default(uuid())
+  senderId   String
+  receiverId String
+  createdAt  DateTime  @default(now())
+  
+  sender     User      @relation("LikeSender", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver   User      @relation("LikeReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  @@unique([senderId, receiverId])
+  @@map("likes")
+}
+
+model Match {
+  id         String    @id @default(uuid())
+  user1Id    String
+  user2Id    String
+  createdAt  DateTime  @default(now())
+  
+  user1      User      @relation("MatchSender", fields: [user1Id], references: [id], onDelete: Cascade)
+  user2      User      @relation("MatchReceiver", fields: [user2Id], references: [id], onDelete: Cascade)
+  messages   Message[]
+
+  @@unique([user1Id, user2Id])
+  @@map("matches")
+}
+
+model Message {
+  id        String      @id @default(uuid())
+  content   String
+  type      MessageType @default(TEXT)
+  senderId  String
+  receiverId String
+  matchId   String?
+  isRead    Boolean     @default(false)
+  createdAt DateTime    @default(now())
+  
+  sender    User        @relation("MessageSender", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver  User        @relation("MessageReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+  match     Match?      @relation(fields: [matchId], references: [id], onDelete: Cascade)
+
+  @@map("messages")
+}
+
+model Report {
+  id          String     @id @default(uuid())
+  reporterId  String
+  reportedId  String
+  reason      ReportReason
+  description String?
+  status      ReportStatus @default(PENDING)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  
+  reporter    User       @relation(fields: [reporterId], references: [id], onDelete: Cascade)
+
+  @@map("reports")
+}
+
+model Block {
+  id         String   @id @default(uuid())
+  blockerId  String
+  blockedId  String
+  createdAt  DateTime @default(now())
+  
+  blocker    User     @relation("BlockSender", fields: [blockerId], references: [id], onDelete: Cascade)
+  blocked    User     @relation("BlockReceiver", fields: [blockedId], references: [id], onDelete: Cascade)
+
+  @@unique([blockerId, blockedId])
+  @@map("blocks")
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum MessageType {
+  TEXT
+  IMAGE
+  MATCH_NOTIFICATION
+}
+
+enum ReportReason {
+  INAPPROPRIATE_CONTENT
+  HARASSMENT
+  FAKE_PROFILE
+  SPAM
+  OTHER
+}
+
+enum ReportStatus {
+  PENDING
+  REVIEWED
+  RESOLVED
+  DISMISSED
+}
