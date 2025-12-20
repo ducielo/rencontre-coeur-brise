@@ -6,6 +6,7 @@ export interface MockUser {
   location: string;
   bio: string;
   photo: string;
+  photos?: string[]; // Photos supplémentaires
   interests: string[];
   distance: number;
   isBot?: boolean; // Nouveau champ pour identifier les bots
@@ -14,155 +15,190 @@ export interface MockUser {
 export const mockUsers: MockUser[] = [
   {
     id: '2',
-    name: 'Kofi Mensah',
+    name: 'Thomas Dupont',
     age: 32,
     gender: 'homme',
-    location: 'Abidjan, Plateau',
-    bio: 'Entrepreneur passionné. J\'aime le sport, la musique afrobeat et les sorties entre amis. À la recherche d\'une relation sérieuse.',
-    photo: 'https://images.unsplash.com/photo-1589635823089-774fca28fe13?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhZnJpY2FuJTIwbWFuJTIwc21pbGluZ3xlbnwxfHx8fDE3NjU5ODQ0MjZ8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    location: 'Paris, 15ème',
+    bio: 'Entrepreneur passionné. J\'aime le sport, la musique et les sorties entre amis. À la recherche d\'une relation sérieuse.',
+    photo: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400',
     interests: ['Sport', 'Musique', 'Entrepreneuriat', 'Voyages'],
     distance: 5
   },
   {
     id: '3',
-    name: 'Fatou Diallo',
+    name: 'Sophie Martin',
     age: 26,
     gender: 'femme',
-    location: 'Abidjan, Cocody',
-    bio: 'Enseignante et passionnée de lecture. J\'adore la cuisine ivoirienne et les balades à la plage. Recherche quelqu\'un de sérieux.',
-    photo: 'https://images.unsplash.com/photo-1688302017684-ddacc4767693?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhZnJpY2FuJTIwd29tYW4lMjBwb3J0cmFpdHxlbnwxfHx8fDE3NjU5NjgwMDZ8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    interests: ['Lecture', 'Cuisine', 'Plage', 'Cinéma'],
+    location: 'Paris, 11ème',
+    bio: 'Enseignante et passionnée de lecture. J\'adore la cuisine française et les balades dans les parcs. Recherche quelqu\'un de sérieux.',
+    photo: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400',
+    photos: [
+      'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400',
+      'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400',
+      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400'
+    ],
+    interests: ['Lecture', 'Cuisine', 'Promenade', 'Cinéma'],
     distance: 8
   },
   {
     id: '4',
-    name: 'Yao Kouadio',
+    name: 'Lucas Bernard',
     age: 35,
     gender: 'homme',
-    location: 'Abidjan, Marcory',
-    bio: 'Ingénieur informatique, amateur de technologie et de football. Fan du Africa Sports, j\'aime aussi la bonne bouffe et les voyages.',
-    photo: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400',
+    location: 'Paris, 9ème',
+    bio: 'Ingénieur informatique, amateur de technologie et de football. Fan du PSG, j\'aime aussi la bonne bouffe et les voyages.',
+    photo: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400',
     interests: ['Tech', 'Football', 'Voyages', 'Gastronomie'],
     distance: 12
   },
   {
     id: '5',
-    name: 'Aya Traoré',
+    name: 'Emma Dubois',
     age: 29,
     gender: 'femme',
-    location: 'Abidjan, Yopougon',
-    bio: 'Styliste créative et amoureuse de la mode africaine. Je recherche un homme ambitieux et attentionné pour construire ensemble.',
-    photo: 'https://images.unsplash.com/photo-1687422808384-c896d0efd4ab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhZnJpY2FuJTIwYnVzaW5lc3MlMjB3b21hbnxlbnwxfHx8fDE3NjU5NzUxMzZ8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    location: 'Paris, 6ème',
+    bio: 'Styliste créative et amoureuse de la mode. Je recherche un homme ambitieux et attentionné pour construire ensemble.',
+    photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400',
+    photos: [
+      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400',
+      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400',
+      'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=400'
+    ],
     interests: ['Mode', 'Art', 'Danse', 'Musique'],
     distance: 15
   },
   {
     id: '6',
-    name: 'Ibrahim Koné',
+    name: 'Alexandre Laurent',
     age: 31,
     gender: 'homme',
-    location: 'Abidjan, Treichville',
+    location: 'Paris, 17ème',
     bio: 'Commercial dans une grande entreprise. Sportif et sérieux, je cherche une femme douce et intelligente pour fonder une famille.',
-    photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400',
+    photo: 'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?w=400',
     interests: ['Business', 'Sport', 'Famille', 'Musique'],
     distance: 10
   },
   {
     id: '7',
-    name: 'Mariam Bamba',
+    name: 'Léa Petit',
     age: 27,
     gender: 'femme',
-    location: 'Abidjan, Adjamé',
+    location: 'Paris, 12ème',
     bio: 'Infirmière dévouée et attentionnée. J\'aime aider les autres, cuisiner et passer du temps en famille. Cherche relation sérieuse.',
-    photo: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=400',
+    photo: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400',
+    photos: [
+      'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400',
+      'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400',
+      'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400'
+    ],
     interests: ['Santé', 'Cuisine', 'Famille', 'Voyages'],
     distance: 18
   },
   {
     id: '8',
-    name: 'Seydou Diabaté',
+    name: 'Julien Moreau',
     age: 34,
     gender: 'homme',
-    location: 'Abidjan, Koumassi',
-    bio: 'Architecte passionné par l\'urbanisme africain. J\'aime le cinéma, la photographie et découvrir de nouveaux endroits avec ma moitié.',
-    photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400',
+    location: 'Paris, 10ème',
+    bio: 'Architecte passionné par l\'urbanisme. J\'aime le cinéma, la photographie et découvrir de nouveaux endroits avec ma moitié.',
+    photo: 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=400',
     interests: ['Architecture', 'Photographie', 'Cinéma', 'Art'],
     distance: 20
   },
   {
     id: '9',
-    name: 'Adjoa N\'Guessan',
+    name: 'Chloé Roux',
     age: 25,
     gender: 'femme',
-    location: 'Abidjan, Angré',
+    location: 'Paris, 8ème',
     bio: 'Étudiante en marketing digital et passionnée de réseaux sociaux. J\'adore sortir, danser et profiter de la vie avec de bonnes personnes.',
-    photo: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400',
+    photo: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400',
+    photos: [
+      'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400',
+      'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400',
+      'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400'
+    ],
     interests: ['Marketing', 'Réseaux sociaux', 'Danse', 'Sorties'],
     distance: 7
   },
   {
     id: '10',
-    name: 'Karim Touré',
+    name: 'Antoine Simon',
     age: 30,
     gender: 'homme',
-    location: 'Abidjan, Riviera',
+    location: 'Paris, 16ème',
     bio: 'Médecin généraliste dévoué à ses patients. J\'aime lire, faire du sport et passer du temps en famille. Recherche une femme sincère et cultivée.',
-    photo: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400',
+    photo: 'https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=400',
     interests: ['Médecine', 'Lecture', 'Sport', 'Famille'],
     distance: 9
   },
   {
     id: '11',
-    name: 'Aïcha Sanogo',
+    name: 'Camille Blanc',
     age: 28,
     gender: 'femme',
-    location: 'Abidjan, Abobo',
+    location: 'Paris, 14ème',
     bio: 'Comptable passionnée de chiffres et de précision. J\'adore la pâtisserie, les séries TV et les sorties entre amis. Prête pour une belle histoire.',
-    photo: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400',
+    photo: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400',
+    photos: [
+      'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400',
+      'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400',
+      'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=400'
+    ],
     interests: ['Pâtisserie', 'Séries TV', 'Comptabilité', 'Amis'],
     distance: 22
   },
   {
     id: '12',
-    name: 'Mamadou Coulibaly',
+    name: 'Nicolas Michel',
     age: 36,
     gender: 'homme',
-    location: 'Abidjan, Port-Bouët',
-    bio: 'Capitaine de navire, j\'ai voyagé dans plusieurs pays. Amateur de pêche et de cuisine internationale. Recherche une femme aventureuse.',
-    photo: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400',
-    interests: ['Voyage', 'Pêche', 'Cuisine', 'Mer'],
+    location: 'Paris, 13ème',
+    bio: 'Chef cuisinier, j\'ai travaillé dans plusieurs restaurants étoilés. Amateur de gastronomie et de vins. Recherche une femme gourmande.',
+    photo: 'https://images.unsplash.com/photo-1552058544-f2b08422138a?w=400',
+    interests: ['Cuisine', 'Gastronomie', 'Vins', 'Voyages'],
     distance: 14
   },
   {
     id: '13',
-    name: 'Aminata Cissé',
+    name: 'Julie Garnier',
     age: 24,
     gender: 'femme',
-    location: 'Abidjan, Bingerville',
+    location: 'Paris, 7ème',
     bio: 'Graphiste créative et amoureuse des couleurs. Je vis pour l\'art, le design et les belles rencontres. Cherche quelqu\'un d\'ouvert d\'esprit.',
-    photo: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400',
+    photo: 'https://images.unsplash.com/photo-1524502397800-2eeaad7c3fe5?w=400',
+    photos: [
+      'https://images.unsplash.com/photo-1524502397800-2eeaad7c3fe5?w=400',
+      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400',
+      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400'
+    ],
     interests: ['Graphisme', 'Art', 'Design', 'Créativité'],
     distance: 16
   },
   {
     id: '14',
-    name: 'Drissa Konaté',
+    name: 'Maxime Rousseau',
     age: 33,
     gender: 'homme',
-    location: 'Abidjan, Songon',
-    bio: 'Agriculteur moderne et entrepreneur agricole. Passionné par la nature, l\'écologie et le développement durable. Recherche une femme proche de la terre.',
-    photo: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400',
-    interests: ['Agriculture', 'Écologie', 'Nature', 'Business'],
+    location: 'Paris, 18ème',
+    bio: 'Avocat passionné par la justice. J\'aime débattre, lire et voyager. Recherche une femme intelligente et cultivée pour partager ma vie.',
+    photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400',
+    interests: ['Droit', 'Lecture', 'Voyages', 'Débats'],
     distance: 25
   },
   {
     id: '15',
-    name: 'Raïssa Ouattara',
+    name: 'Marine Lefebvre',
     age: 26,
     gender: 'femme',
-    location: 'Abidjan, Cocody Riviera',
+    location: 'Paris, 5ème',
     bio: 'Journaliste curieuse et dynamique. J\'adore écrire, enquêter et raconter des histoires. Cherche un homme intelligent et stimulant intellectuellement.',
-    photo: 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=400',
+    photo: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=400',
+    photos: [
+      'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=400',
+      'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400',
+      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400'
+    ],
     interests: ['Journalisme', 'Écriture', 'Actualité', 'Culture'],
     distance: 6
   }

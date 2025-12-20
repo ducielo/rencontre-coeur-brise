@@ -4,7 +4,7 @@ import { mockUsers, MockUser } from '../data/mockUsers';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
-import { Heart, X, MapPin, Info, Sparkles, Star, RotateCcw, Lock, LogIn, UserPlus } from 'lucide-react';
+import { Heart, X, MapPin, Info, Sparkles, Star, RotateCcw, Lock, LogIn, UserPlus, ChevronLeft, ChevronRight } from 'lucide-react';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -18,10 +18,14 @@ export default function HomePage({ onShowLogin, onShowRegister }: HomePageProps)
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showDetails, setShowDetails] = useState(false);
   const [exitDirection, setExitDirection] = useState<'left' | 'right' | null>(null);
+  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
   // Filtrer les utilisateurs selon les préférences
   const filteredUsers = mockUsers.filter(u => {
-    if (!user?.preferences) return true;
+    // Par défaut, afficher uniquement les femmes
+    if (!user?.preferences) {
+      return u.gender === 'femme';
+    }
     
     const { ageMin, ageMax, gender } = user.preferences;
     
@@ -87,9 +91,28 @@ export default function HomePage({ onShowLogin, onShowRegister }: HomePageProps)
     if (currentIndex < filteredUsers.length - 1) {
       setCurrentIndex(currentIndex + 1);
       setShowDetails(false);
+      setCurrentPhotoIndex(0); // Reset photo index
     } else {
       toast.info('Vous avez vu tous les profils disponibles !');
       setCurrentIndex(0);
+      setCurrentPhotoIndex(0); // Reset photo index
+    }
+  };
+
+  // Obtenir toutes les photos du profil actuel
+  const currentPhotos = currentUser?.photos && currentUser.photos.length > 0 
+    ? currentUser.photos 
+    : [currentUser?.photo].filter(Boolean);
+
+  const nextPhoto = () => {
+    if (currentPhotoIndex < currentPhotos.length - 1) {
+      setCurrentPhotoIndex(currentPhotoIndex + 1);
+    }
+  };
+
+  const previousPhoto = () => {
+    if (currentPhotoIndex > 0) {
+      setCurrentPhotoIndex(currentPhotoIndex - 1);
     }
   };
 
@@ -161,10 +184,46 @@ export default function HomePage({ onShowLogin, onShowRegister }: HomePageProps)
       <Card className="overflow-hidden shadow-2xl">
         <div className="relative">
           <img
-            src={currentUser.photo}
+            src={currentPhotos[currentPhotoIndex]}
             alt={currentUser.name}
             className="w-full h-[500px] object-cover"
           />
+          
+          {/* Indicateurs de photos */}
+          {currentPhotos.length > 1 && (
+            <div className="absolute top-4 left-0 right-0 flex justify-center gap-1 px-4">
+              {currentPhotos.map((_, index) => (
+                <div
+                  key={index}
+                  className={`h-1 flex-1 rounded-full transition-all ${
+                    index === currentPhotoIndex ? 'bg-white' : 'bg-white/40'
+                  }`}
+                />
+              ))}
+            </div>
+          )}
+          
+          {/* Boutons de navigation entre les photos */}
+          {currentPhotos.length > 1 && (
+            <>
+              {currentPhotoIndex > 0 && (
+                <button
+                  onClick={previousPhoto}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-all"
+                >
+                  <ChevronLeft className="w-6 h-6" />
+                </button>
+              )}
+              {currentPhotoIndex < currentPhotos.length - 1 && (
+                <button
+                  onClick={nextPhoto}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-all"
+                >
+                  <ChevronRight className="w-6 h-6" />
+                </button>
+              )}
+            </>
+          )}
           
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-6 text-white">
             <div className="flex items-start justify-between mb-2">

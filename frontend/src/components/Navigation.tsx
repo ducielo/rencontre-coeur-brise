@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { useAuth } from '../contexts/AuthContext';
 import { Heart, Home, MessageCircle, User, Settings, Crown, Users } from 'lucide-react';
 
-type Page = 'home' | 'profile' | 'settings' | 'messages' | 'subscription' | 'admin';
+type Page = 'home' | 'profile' | 'settings' | 'messages' | 'subscription' | 'admin' | 'login' | 'register';
 
 interface NavigationProps {
   currentPage: Page;
@@ -15,12 +15,16 @@ interface NavigationProps {
 export default function Navigation({ currentPage, onPageChange, onLogout }: NavigationProps) {
   const { user } = useAuth();
 
-  const navItems = [
+  const navItems = user ? [
     { id: 'home' as Page, icon: Home, label: 'Découvrir' },
     { id: 'messages' as Page, icon: MessageCircle, label: 'Messages' },
     { id: 'admin' as Page, icon: Users, label: 'Profils' },
     { id: 'profile' as Page, icon: User, label: 'Profil' },
     { id: 'settings' as Page, icon: Settings, label: 'Paramètres' }
+  ] : [
+    { id: 'home' as Page, icon: Home, label: 'Découvrir' },
+    { id: 'login' as Page, icon: User, label: 'Connexion' },
+    { id: 'register' as Page, icon: Heart, label: 'Inscription' }
   ];
 
   return (

@@ -10,45 +10,46 @@ import SubscriptionPage from './pages/SubscriptionPage';
 import AdminProfilesPage from './pages/AdminProfilesPage';
 import Navigation from './components/Navigation';
 
-type Page = 'home' | 'profile' | 'settings' | 'messages' | 'subscription' | 'admin';
+type Page = 'home' | 'profile' | 'settings' | 'messages' | 'subscription' | 'admin' | 'login' | 'register';
 
 function AppContent() {
   const { user, logout } = useAuth();
   const [currentPage, setCurrentPage] = useState<Page>('home');
-  const [isLogin, setIsLogin] = useState(true);
 
   const renderPage = () => {
     switch (currentPage) {
       case 'home':
-        return <HomePage onShowLogin={() => setIsLogin(true)} onShowRegister={() => setIsLogin(false)} />;
+        return <HomePage onShowLogin={() => setCurrentPage('login')} onShowRegister={() => setCurrentPage('register')} />;
+      case 'login':
+        return <LoginPage onSwitchToRegister={() => setCurrentPage('register')} />;
+      case 'register':
+        return <RegisterPage onSwitchToLogin={() => setCurrentPage('login')} />;
       case 'profile':
-        if (!user) return <HomePage onShowLogin={() => setIsLogin(true)} onShowRegister={() => setIsLogin(false)} />;
+        if (!user) return <HomePage onShowLogin={() => setCurrentPage('login')} onShowRegister={() => setCurrentPage('register')} />;
         return <ProfilePage />;
       case 'settings':
-        if (!user) return <HomePage onShowLogin={() => setIsLogin(true)} onShowRegister={() => setIsLogin(false)} />;
+        if (!user) return <HomePage onShowLogin={() => setCurrentPage('login')} onShowRegister={() => setCurrentPage('register')} />;
         return <SettingsPage />;
       case 'messages':
-        if (!user) return <HomePage onShowLogin={() => setIsLogin(true)} onShowRegister={() => setIsLogin(false)} />;
+        if (!user) return <HomePage onShowLogin={() => setCurrentPage('login')} onShowRegister={() => setCurrentPage('register')} />;
         return <MessagesPage />;
       case 'subscription':
-        if (!user) return <HomePage onShowLogin={() => setIsLogin(true)} onShowRegister={() => setIsLogin(false)} />;
+        if (!user) return <HomePage onShowLogin={() => setCurrentPage('login')} onShowRegister={() => setCurrentPage('register')} />;
         return <SubscriptionPage />;
       case 'admin':
-        if (!user) return <HomePage onShowLogin={() => setIsLogin(true)} onShowRegister={() => setIsLogin(false)} />;
+        if (!user) return <HomePage onShowLogin={() => setCurrentPage('login')} onShowRegister={() => setCurrentPage('register')} />;
         return <AdminProfilesPage />;
       default:
-        return <HomePage onShowLogin={() => setIsLogin(true)} onShowRegister={() => setIsLogin(false)} />;
+        return <HomePage onShowLogin={() => setCurrentPage('login')} onShowRegister={() => setCurrentPage('register')} />;
     }
   };
 
-  // Afficher login/register en overlay si demandé et pas connecté
-  if (!user && (currentPage !== 'home' || isLogin !== null)) {
-    if (isLogin) {
-      return <LoginPage onSwitchToRegister={() => setIsLogin(false)} />;
-    } else {
-      return <RegisterPage onSwitchToLogin={() => setIsLogin(true)} />;
+  // Rediriger vers home après connexion
+  useEffect(() => {
+    if (user && (currentPage === 'login' || currentPage === 'register')) {
+      setCurrentPage('home');
     }
-  }
+  }, [user]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50">

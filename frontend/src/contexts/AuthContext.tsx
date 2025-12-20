@@ -89,7 +89,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         ageMin: 18,
         ageMax: 50,
         distance: 50,
-        gender: data.gender === 'homme' ? 'femme' : 'homme'
+        gender: 'femme'
       }
     });
   };

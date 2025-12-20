@@ -185,7 +185,7 @@ export default function MessagesPage() {
             <ArrowLeft className="w-5 h-5" />
           </Button>
 
-          <div className="relative w-20 h-20 flex-shrink-0">
+          <div className="relative w-32 h-32 flex-shrink-0">
             <img
               src={selectedMatch.user.photo}
               alt={selectedMatch.user.name}
