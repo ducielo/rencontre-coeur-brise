@@ -1,6 +1,6 @@
-import { IsEmail, IsString, MinLength, IsDateString, IsIn, IsOptional } from 'class-validator';
+import { IsEmail, IsString, MinLength, IsDateString, IsIn, IsOptional, IsArray } from 'class-validator';
 
-export class RegisterDto {
+export class CreateUserDto {
   @IsEmail({}, { message: 'Email invalide' })
   email: string;
 
@@ -34,4 +34,12 @@ export class RegisterDto {
   @IsOptional()
   @IsString()
   education?: string;
+
+  @IsOptional()
+  @IsString()
+  bio?: string;
+
+  @IsOptional()
+  @IsString()
+  interests?: string;
 }

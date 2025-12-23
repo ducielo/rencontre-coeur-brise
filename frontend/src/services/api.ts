@@ -3,7 +3,7 @@
  * Ce service centralise tous les appels API de l'application
  */
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3002';
 
 /**
  * Interface pour les données d'inscription

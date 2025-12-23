@@ -105,7 +105,7 @@ export class NotificationService {
   }
 
   // Tâche CRON: Nettoyage des anciennes données (chaque dimanche à 2h)
-  @Cron(CronExpression.EVERY_SUNDAY_AT_2AM)
+  @Cron('0 2 * * 0')
   async cleanupOldData() {
     console.log('🧹 Nettoyage des anciennes données...');
     

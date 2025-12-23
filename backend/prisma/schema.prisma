@@ -6,8 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model User {
@@ -18,12 +18,12 @@ model User {
   firstName     String
   lastName      String
   dateOfBirth   DateTime
-  gender        Gender
+  gender        String
   location      String
   job           String?
   education     String?
   bio           String?
-  interests     String[] // Array of interests
+  interests     String? // JSON array of interests
   photos        Photo[]
   isVerified    Boolean  @default(false)
   isActive      Boolean  @default(true)
@@ -87,7 +87,7 @@ model Match {
 model Message {
   id        String      @id @default(uuid())
   content   String
-  type      MessageType @default(TEXT)
+  type      String @default("TEXT")
   senderId  String
   receiverId String
   matchId   String?
@@ -105,9 +105,9 @@ model Report {
   id          String     @id @default(uuid())
   reporterId  String
   reportedId  String
-  reason      ReportReason
+  reason      String
   description String?
-  status      ReportStatus @default(PENDING)
+  status      String @default("PENDING")
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
   
@@ -127,31 +127,4 @@ model Block {
 
   @@unique([blockerId, blockedId])
   @@map("blocks")
-}
-
-enum Gender {
-  MALE
-  FEMALE
-  OTHER
-}
-
-enum MessageType {
-  TEXT
-  IMAGE
-  MATCH_NOTIFICATION
-}
-
-enum ReportReason {
-  INAPPROPRIATE_CONTENT
-  HARASSMENT
-  FAKE_PROFILE
-  SPAM
-  OTHER
-}
-
-enum ReportStatus {
-  PENDING
-  REVIEWED
-  RESOLVED
-  DISMISSED
 }

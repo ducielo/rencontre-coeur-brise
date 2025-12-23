@@ -27,7 +27,6 @@ export class AuthService {
 
     // Créer l'utilisateur
     const user = await this.userService.create({
-      id: uuidv4(),
       ...registerDto,
       password: hashedPassword,
     });
